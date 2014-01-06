@@ -1,0 +1,31 @@
+	
+   <h1>Add Category</h1>
+   <div>
+	   	<form id="new-category" name="new_categories[]" method="post" action="/IEMWeb/Category">
+		   	<table>
+		   		<tr class="border">
+		   			<td>
+		   				<div class="label">Name</div>
+		   				<div class="input"><input type="text" name="name"></div>
+		   			</td>
+		   			<td>
+		   				<div class="label">Description</div>
+		   				<div class="input"><input type="text" name="description"></div>
+		   			</td>
+		   		</tr>
+		   	</table>
+		   	<div class="action">		   		
+			   	<a class="button" href="#" onClick="addMore()">Add More</a>
+			   	<input class="button" type="submit" />
+			</div>
+	   </form>
+   </div>
+
+   	<script>
+   		function addMore() {
+   			var row = $('#new-category > table tr:first');
+   			$('table tr:last').after(row.clone());
+   			$('#new-category > table tr:last input').val("");
+   			$("html, body").animate({ scrollTop: $(document).height() }, 1000);
+   		}
+   	</script>
