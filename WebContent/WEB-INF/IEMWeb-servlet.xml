@@ -1,83 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:data="http://www.springframework.org/schema/data/jpa"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
-        http://www.springframework.org/schema/aop
-        http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
-        http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context-4.0.xsd
-        http://www.springframework.org/schema/data/jpa
-    	http://www.springframework.org/schema/data/jpa/spring-jpa.xsd
-    	http://www.springframework.org/schema/jdbc 
-		http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
-		http://www.springframework.org/schema/data/repository
-        http://www.springframework.org/schema/data/repository/spring-repository-1.5.xsd
-        http://www.springframework.org/schema/tx
-        http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd
 		http://www.springframework.org/schema/security
 		http://www.springframework.org/schema/security/spring-security-3.2.xsd">
 
-	<context:annotation-config />
-	<mvc:annotation-driven />
-	<tx:annotation-driven transaction-manager="transactionManager" />
-	<context:component-scan base-package="com.netpace.iem.ahmed" />
-	<data:repositories base-package="com.netpace.iem.ahmed.repository" />
-	<mvc:resources mapping="/assets/**" location="/assets/" />
-
-	<bean id="entityManagerFactory"
-		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceXmlLocation" value="/META-INF/persistence.xml" />
-		<property name="persistenceUnitName" value="iem" />
-	</bean>
-
-	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
-		<property name="entityManagerFactory" ref="entityManagerFactory" />
-	</bean>
-	<bean
-		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass"
-			value="org.springframework.web.servlet.view.JstlView"></property>
-		<property name="prefix" value="/jsp/" />
-		<property name="suffix" value=".jsp" />
-	</bean>
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/iem" />
-		<property name="username" value="root" />
-		<property name="password" value="" />
-	</bean>
-
-	<security:http auto-config="true">
-		<security:intercept-url pattern="/login"
-			access="ROLE_ANONYMOUS" />
-		<security:intercept-url pattern="/**" access="ROLE_USER" />
-		<security:form-login login-page="/login"
-			default-target-url="/category/" authentication-failure-url="/loginfailed" />
-		<security:logout logout-success-url="/logout" />
-	</security:http>
-
-	<security:authentication-manager>
-		<security:authentication-provider>
-			<security:jdbc-user-service data-source-ref="dataSource"
- 
-		   users-by-username-query="
-		      select username,password, enabled 
-		      from users where username=?" 
- 
-		   authorities-by-username-query="
-		      select u.username, ur.authority from users u, user_roles ur 
-		      where u.user_id = ur.user_id and u.username =?  " 
- 
-		/>
-		</security:authentication-provider>
-	</security:authentication-manager>
+	
+	
+	
 </beans>

@@ -30,6 +30,7 @@
 	<a class="button" id="add">Add</a>
 	<a class="button" id="edit">Edit</a>
 	<a class="button" id="delete">Delete</a>
+	<a href="<c:url value="/j_spring_security_logout" />" > Logout</a>
 	<script>
 		$(function() {
 			$("#list").jqGrid(
