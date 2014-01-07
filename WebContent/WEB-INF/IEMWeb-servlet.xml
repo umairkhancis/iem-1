@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:data="http://www.springframework.org/schema/data/jpa" 
+	xmlns:data="http://www.springframework.org/schema/data/jpa"
 	xmlns:security="http://www.springframework.org/schema/security"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans
@@ -34,7 +33,7 @@
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
-		<property name="persistenceXmlLocation" value="/WEB-INF/persistence.xml" />
+		<property name="persistenceXmlLocation" value="/META-INF/persistence.xml" />
 		<property name="persistenceUnitName" value="iem" />
 	</bean>
 
@@ -43,23 +42,42 @@
 	</bean>
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"></property>
+		<property name="viewClass"
+			value="org.springframework.web.servlet.view.JstlView"></property>
 		<property name="prefix" value="/jsp/" />
 		<property name="suffix" value=".jsp" />
 	</bean>
-	
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+
+		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
+		<property name="url" value="jdbc:mysql://localhost:3306/iem" />
+		<property name="username" value="root" />
+		<property name="password" value="" />
+	</bean>
+
 	<security:http auto-config="true">
+		<security:intercept-url pattern="/login"
+			access="ROLE_ANONYMOUS" />
 		<security:intercept-url pattern="/**" access="ROLE_USER" />
-		<security:form-login login-page="/login" default-target-url="/welcome"
-			authentication-failure-url="/loginfailed" />
+		<security:form-login login-page="/login"
+			default-target-url="/category/" authentication-failure-url="/loginfailed" />
 		<security:logout logout-success-url="/logout" />
 	</security:http>
- 
+
 	<security:authentication-manager>
-	  <security:authentication-provider>
-		<security:user-service>
-			<security:user name="mkyong" password="123456" authorities="ROLE_USER" />
-		</security:user-service>
-	  </security:authentication-provider>
+		<security:authentication-provider>
+			<security:jdbc-user-service data-source-ref="dataSource"
+ 
+		   users-by-username-query="
+		      select username,password, enabled 
+		      from users where username=?" 
+ 
+		   authorities-by-username-query="
+		      select u.username, ur.authority from users u, user_roles ur 
+		      where u.user_id = ur.user_id and u.username =?  " 
+ 
+		/>
+		</security:authentication-provider>
 	</security:authentication-manager>
 </beans>
