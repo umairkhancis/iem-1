@@ -31,7 +31,7 @@ import com.netpace.iem.ahmed.repository.CategoryRepository;
  * Application Lifecycle Listener implementation class CategoryServlet
  *
  */
-@WebServlet("/Category")
+//@WebServlet("/Category")
 public class CategoryServlet extends HttpServlet {
 
     /**
